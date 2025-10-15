@@ -1,6 +1,63 @@
-import { FaEnvelope, FaLinkedin, FaGithub, FaMapMarkerAlt } from 'react-icons/fa'
+'use client';
+
+import { useState, useRef, useEffect } from 'react';
+import { FaEnvelope, FaLinkedin, FaGithub, FaMapMarkerAlt, FaPaperPlane } from 'react-icons/fa';
 
 export default function Contact() {
+  const [messages, setMessages] = useState<{ sender: 'user' | 'bot'; text: string }[]>([
+    { sender: 'bot', text: "Hi! Ask me about my projects, skills, or experience!" },
+  ]);
+  const [input, setInput] = useState('');
+  const [loading, setLoading] = useState(false);
+  const scrollRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' });
+  }, [messages]);
+
+  async function sendMessage(e?: React.FormEvent) {
+    e?.preventDefault();
+    const trimmed = input.trim();
+    if (!trimmed || loading) return;
+
+    // Add user message locally
+    const userMessage = { sender: 'user' as const, text: trimmed };
+    setMessages(prev => [...prev, userMessage]);
+    setInput('');
+    setLoading(true);
+
+    const payloadMessages = [
+      { role: 'system', content: "You are Luis' friendly portfolio assistant. Answer concisely and help visitors learn about his projects and experience." },
+      ...messages.map(m => ({
+        role: m.sender === 'user' ? 'user' : 'assistant',
+        content: m.text,
+      })),
+    ];
+
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: payloadMessages }),
+      });
+
+      const data = await res.json();
+      if (data?.reply) {
+        setMessages(prev => [...prev, { sender: 'bot', text: data.reply }]);
+      } else if (data?.error) {
+        console.error('API Error:', data.error);
+        setMessages(prev => [...prev, { sender: 'bot', text: `Sorry, there was an error: ${data.error}` }]);
+      } else {
+        setMessages(prev => [...prev, { sender: 'bot', text: 'Sorry, something went wrong. Try again later.' }]);
+      }
+    } catch (err) {
+      console.error(err);
+      setMessages(prev => [...prev, { sender: 'bot', text: 'Network error. Try again later.' }]);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
     <div className="bg-gray-900 text-gray-100 min-h-screen">
       {/* Hero Section */}
@@ -14,7 +71,7 @@ export default function Contact() {
         </div>
       </section>
 
-      {/* Contact Content */}
+      {/* Contact + Chat Section */}
       <section className="py-24">
         <div className="max-w-7xl mx-auto px-6 lg:px-24">
           <div className="grid lg:grid-cols-2 gap-12 items-start">
@@ -22,9 +79,7 @@ export default function Contact() {
             <div className="space-y-8">
               <div>
                 <h2 className="text-3xl font-bold text-white mb-6">Get In Touch</h2>
-                <p className="text-lg text-gray-400 mb-8">
-                  I&apos;m always interested in new opportunities and exciting projects.
-                </p>
+                <p className="text-lg text-gray-400 mb-8">I&apos;m always interested in new opportunities and exciting projects.</p>
               </div>
 
               <div className="space-y-6">
@@ -34,9 +89,7 @@ export default function Contact() {
                   </div>
                   <div>
                     <h3 className="text-white font-semibold">Email</h3>
-                    <a href="mailto:palmal@kean.edu" className="text-gray-400 hover:text-indigo-400 transition-colors">
-                      palmal@kean.edu
-                    </a>
+                    <a href="mailto:palmal@kean.edu" className="text-gray-400 hover:text-indigo-400 transition-colors">palmal@kean.edu</a>
                   </div>
                 </div>
 
@@ -46,14 +99,7 @@ export default function Contact() {
                   </div>
                   <div>
                     <h3 className="text-white font-semibold">LinkedIn</h3>
-                    <a 
-                      href="https://www.linkedin.com/in/palmaluis/" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="text-gray-400 hover:text-purple-400 transition-colors"
-                    >
-                      linkedin.com/in/palmaluis
-                    </a>
+                    <a href="https://www.linkedin.com/in/palmaluis/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-purple-400 transition-colors">linkedin.com/in/palmaluis</a>
                   </div>
                 </div>
 
@@ -63,14 +109,7 @@ export default function Contact() {
                   </div>
                   <div>
                     <h3 className="text-white font-semibold">GitHub</h3>
-                    <a 
-                      href="https://github.com/PalmaL22" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="text-gray-400 hover:text-green-400 transition-colors"
-                    >
-                      github.com/luis-palma
-                    </a>
+                    <a href="https://github.com/PalmaL22" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-green-400 transition-colors">github.com/luis-palma</a>
                   </div>
                 </div>
 
@@ -86,62 +125,29 @@ export default function Contact() {
               </div>
             </div>
 
-            {/* Contact Form */}
-            <div className="bg-gray-800 p-8 rounded-2xl border border-gray-700/50">
-              <h3 className="text-2xl font-bold text-white mb-6">Send a Message</h3>
-              <form className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">
-                      Name
-                    </label>
-                    <input 
-                      type="text" 
-                      id="name"
-                      placeholder="Your Name" 
-                      className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors"
-                    />
+            {/* Chatbox */}
+            <div className="bg-gray-800 p-6 rounded-2xl border border-gray-700/50 flex flex-col h-[500px]">
+              <div ref={scrollRef} className="flex-1 overflow-y-auto mb-4 space-y-3 pr-2">
+                {messages.map((msg, idx) => (
+                  <div key={idx} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
+                    <div className={`px-4 py-2 rounded-xl max-w-xs ${msg.sender === 'user' ? 'bg-indigo-500 text-white' : 'bg-gray-700 text-gray-200'}`}>
+                      {msg.text}
+                    </div>
                   </div>
-                  <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
-                      Email
-                    </label>
-                    <input 
-                      type="email" 
-                      id="email"
-                      placeholder="your.email@example.com" 
-                      className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <label htmlFor="subject" className="block text-sm font-medium text-gray-300 mb-2">
-                    Subject
-                  </label>
-                  <input 
-                    type="text" 
-                    id="subject"
-                    placeholder="What&apos;s this about?" 
-                    className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-gray-300 mb-2">
-                    Message
-                  </label>
-                  <textarea 
-                    id="message"
-                    rows={5}
-                    placeholder="Tell me about your project or just say hello!" 
-                    className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors resize-none"
-                  ></textarea>
-                </div>
-                <button 
-                  type="submit"
-                  className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-indigo-500/25 flex items-center justify-center"
-                >
-                  Send Message
-                  <FaEnvelope className="ml-2" size={16} />
+                ))}
+                {loading && <div className="text-sm text-gray-400">Bot is typing...</div>}
+              </div>
+
+              <form onSubmit={sendMessage} className="flex items-center space-x-2">
+                <input
+                  type="text"
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  placeholder="Type a message..."
+                  className="flex-1 px-4 py-2 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                />
+                <button disabled={loading} type="submit" className="bg-indigo-500 hover:bg-indigo-600 px-4 py-2 rounded-lg flex items-center justify-center disabled:opacity-60">
+                  <FaPaperPlane size={16} />
                 </button>
               </form>
             </div>
@@ -149,5 +155,5 @@ export default function Contact() {
         </div>
       </section>
     </div>
-  )
+  );
 }

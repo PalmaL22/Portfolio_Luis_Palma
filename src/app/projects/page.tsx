@@ -135,7 +135,7 @@ export default function Projects() {
                 <span className="px-3 py-1 bg-blue-500/20 text-blue-300 text-sm rounded-full">GUI</span>
               </div>
               <div className="flex space-x-4">
-                <a href="#" className="text-orange-400 hover:text-orange-300 font-semibold flex items-center group">
+                <a href="https://github.com/PalmaL22/WavPlayerPublic" className="text-orange-400 hover:text-orange-300 font-semibold flex items-center group">
                   View Code
                   <FaCode className="ml-2 group-hover:translate-x-1 transition-transform duration-300" size={14} />
                 </a>
@@ -165,7 +165,7 @@ export default function Projects() {
                 <span className="px-3 py-1 bg-blue-500/20 text-blue-300 text-sm rounded-full">Game</span>
               </div>
               <div className="flex space-x-4">
-                <a href="#" className="text-red-400 hover:text-red-300 font-semibold flex items-center group">
+                <a href="https://github.com/PalmaL22/LC-3-Guessing-Game" className="text-red-400 hover:text-red-300 font-semibold flex items-center group">
                   View Code
                   <FaCode className="ml-2 group-hover:translate-x-1 transition-transform duration-300" size={14} />
                 </a>
