@@ -1,4 +1,4 @@
-import { FaEnvelope, FaLinkedin, FaGithub, FaMapMarkerAlt, FaPhone } from 'react-icons/fa'
+import { FaEnvelope, FaLinkedin, FaGithub, FaMapMarkerAlt } from 'react-icons/fa'
 
 export default function Contact() {
   return (
@@ -8,7 +8,7 @@ export default function Contact() {
         <div className="max-w-7xl mx-auto px-6 lg:px-24">
           <div className="text-center mb-16">
             <h1 className="text-5xl lg:text-7xl font-bold text-white mb-4">
-              Let's <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">Connect</span>
+              Let&apos;s <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">Connect</span>
             </h1>
           </div>
         </div>
@@ -23,7 +23,7 @@ export default function Contact() {
               <div>
                 <h2 className="text-3xl font-bold text-white mb-6">Get In Touch</h2>
                 <p className="text-lg text-gray-400 mb-8">
-                  I'm always interested in new opportunities and exciting projects.
+                  I&apos;m always interested in new opportunities and exciting projects.
                 </p>
               </div>
 
@@ -121,7 +121,7 @@ export default function Contact() {
                   <input 
                     type="text" 
                     id="subject"
-                    placeholder="What's this about?" 
+                    placeholder="What&apos;s this about?" 
                     className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors"
                   />
                 </div>

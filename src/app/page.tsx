@@ -18,7 +18,7 @@ export default function Home() {
           </div>
           <div className="animate-slideUp" style={{animationDelay: '0.2s'}}>
             <h1 className="text-5xl lg:text-7xl font-bold text-white mb-4">
-              Hi, I'm{' '}
+              Hi, I&apos;m{' '}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">
                 Luis Palma
               </span>

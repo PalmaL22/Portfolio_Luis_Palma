@@ -2,7 +2,7 @@
 import './globals.css'
 import Link from 'next/link'
 import { Inter } from 'next/font/google'
-import { FaGithub, FaLinkedin, FaTwitter, FaEnvelope } from 'react-icons/fa'
+import { FaLinkedin, FaEnvelope } from 'react-icons/fa'
 
 const inter = Inter({ subsets: ['latin'], weight: ['300', '400', '500', '600', '700'] })
 

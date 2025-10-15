@@ -1,4 +1,4 @@
-import { FaGraduationCap, FaBriefcase, FaCode, FaUniversity, FaAward, FaCoffee } from 'react-icons/fa'
+import { FaAward, FaCoffee } from 'react-icons/fa'
 import { SiPython, SiJavascript, SiCplusplus, SiReact, SiNodedotjs, SiPytorch, SiGit, SiMongodb, SiMysql, SiDocker, SiKotlin, SiTypescript, SiHtml5, SiCss3 } from 'react-icons/si'
 
 export default function Experience() {
@@ -103,7 +103,7 @@ export default function Experience() {
               <span className="text-green-400 font-medium">2022 - 2026</span>
             </div>
             <p className="text-gray-400 mb-4">
-              Pursuing Bachelor's degree in Computer Science
+              Pursuing Bachelor&apos;s degree in Computer Science
             </p>
             <div className="flex flex-wrap gap-2">
               <span className="px-2 py-1 bg-gray-700 text-gray-300 text-sm rounded">Data Structures</span>

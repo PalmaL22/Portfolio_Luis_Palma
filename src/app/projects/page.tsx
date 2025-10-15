@@ -1,5 +1,5 @@
-import { FaGithub, FaExternalLinkAlt, FaCode, FaLaptopCode, FaBrain, FaGlobe } from 'react-icons/fa'
-import { SiNextdotjs, SiTailwindcss, SiTypescript, SiPython, SiJavascript } from 'react-icons/si'
+import { FaGithub, FaCode, FaLaptopCode, FaBrain } from 'react-icons/fa'
+import { SiNextdotjs, SiPython, SiJavascript } from 'react-icons/si'
 
 export default function Projects() {
   return (
