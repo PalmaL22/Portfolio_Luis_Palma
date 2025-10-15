@@ -38,8 +38,12 @@ export async function POST(req: Request) {
 
     const reply = data.choices?.[0]?.message?.content || "No response";
     return NextResponse.json({ reply });
-  } catch (err: any) {
+    } catch (err: unknown) {
     console.error("Server error:", err);
-    return NextResponse.json({ error: "Server error", details: err.message || err }, { status: 500 });
-  }
+
+    // Narrow the type safely
+    const message = err instanceof Error ? err.message : String(err);
+
+    return NextResponse.json({ error: "Server error", details: message }, { status: 500 });
+    }
 }
