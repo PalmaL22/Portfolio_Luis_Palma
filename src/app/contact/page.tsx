@@ -20,18 +20,29 @@ export default function Contact() {
     const trimmed = input.trim();
     if (!trimmed || loading) return;
 
-    // Add user message locally
     const userMessage = { sender: 'user' as const, text: trimmed };
     setMessages(prev => [...prev, userMessage]);
     setInput('');
     setLoading(true);
 
     const payloadMessages = [
-      { role: 'system', content: "You are Luis' friendly portfolio assistant. Answer concisely and help visitors learn about his projects and experience." },
-      ...messages.map(m => ({
-        role: m.sender === 'user' ? 'user' : 'assistant',
-        content: m.text,
-      })),
+      { role: 'system', content: `You are Luis' portfolio assistant. Luis is a Computer Science student at Kean University with experience in software development and machine learning.
+
+Most Recent Role: Software Developer Intern at AWS (May-Aug 2025) working with Java, TypeScript, and AWS.
+
+Recent Experience:
+- Research Intern (Jan-Apr 2025): Built ChatGPT-based tutor with Google sponsorship using JavaScript, Next.js, MySQL
+- Research Intern (Jun-Aug 2024): Led ML team for SpaceX wetlands UAS imagery project using Python, PyTorch
+
+Key Projects:
+- Rice Disease Classifier: CNN model for agricultural research (Python, PyTorch)
+- AI Tutor Application: ChatGPT integration for tutoring (JavaScript, Next.js, MySQL)
+- WAV Player: Audio app with custom UI (Next.js, TypeScript, Tailwind)
+
+Skills: Python, JavaScript, TypeScript, Java, Next.js, React, PyTorch, MySQL, AWS
+
+Answer questions about Luis's experience, projects, and skills concisely.` },
+      { role: 'user', content: trimmed },
     ];
 
     try {
@@ -46,7 +57,11 @@ export default function Contact() {
         setMessages(prev => [...prev, { sender: 'bot', text: data.reply }]);
       } else if (data?.error) {
         console.error('API Error:', data.error);
-        setMessages(prev => [...prev, { sender: 'bot', text: `Sorry, there was an error: ${data.error}` }]);
+        if (data.error === 'Empty response from AI') {
+          setMessages(prev => [...prev, { sender: 'bot', text: 'The AI response was cut off. Please try asking your question again.' }]);
+        } else {
+          setMessages(prev => [...prev, { sender: 'bot', text: `Sorry, there was an error: ${data.error}` }]);
+        }
       } else {
         setMessages(prev => [...prev, { sender: 'bot', text: 'Sorry, something went wrong. Try again later.' }]);
       }
