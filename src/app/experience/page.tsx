@@ -29,7 +29,7 @@ export default function Experience() {
                 <span className="text-indigo-400 font-medium">May 2025 - August 2025</span>
               </div>
               <p className="text-gray-400 mb-4">
-                Interned with the JWO team at AWS, located in Seattle Washington
+                Summer 2025 Software Developer Engineer Intern at AWS in Seattle, Washington
               </p>
               <div className="flex flex-wrap gap-2">
                 <span className="px-2 py-1 bg-gray-700 text-gray-300 text-sm rounded">Java</span>
