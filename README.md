@@ -1,4 +1,4 @@
-##PERSONAL PORTFOLIO
+## PERSONAL PORTFOLIO
 
 Project for Tech 3500
 This is a personal portfolio website, which contains an overview of my professional experience. 
@@ -6,5 +6,5 @@ The portfolio features an AI assistant. The assistant is trained to answer speci
 
 Developed using next.js and deployed with Vercel
 
-##LINK
+## LINK TO PORTFOLIO
 https://luis-palma.vercel.app/
